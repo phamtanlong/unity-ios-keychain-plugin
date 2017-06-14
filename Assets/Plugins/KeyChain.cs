@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Runtime.InteropServices;
 
-public class KeyChain {
-	
+public class KeyChain 
+{	
 	#if UNITY_IPHONE || UNITY_STANDALONE_OSX
 	
 	[DllImport("__Internal")]
@@ -29,5 +29,21 @@ public class KeyChain {
 		deleteKeyChainUser();
 	}
 	
+	[DllImport("__Internal")]
+	private static extern void setJSONData(string jsonString);	
+	
+	public static void StoreJSONData(string jsonString)
+	{
+		setJSONData(jsonString);
+	}
+
+	[DllImport("__Internal")]
+	private static extern string getJSONData();
+
+	public static string GetJSONData()
+	{
+		return getJSONData();
+	}
+
 	#endif
 }
