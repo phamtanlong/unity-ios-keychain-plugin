@@ -2,9 +2,12 @@
 
 public class DataSaver : MonoBehaviour 
 {
+	private const string _sceneDataID = "SceneData";
+
 	private void Start()
 	{
 		ListenToEvents();
+		Initialize();
 		LoadData();
 	}
 
@@ -13,9 +16,14 @@ public class DataSaver : MonoBehaviour
 		DataMessenger.OnSceneDataUpdated += SceneDataUpdated;
 	}
 
+	private void Initialize()
+	{
+		KeyChain.Initialize();
+	}
+
 	private void LoadData()
 	{
-		string jsonString = KeyChain.GetJSONData();
+		string jsonString = KeyChain.GetString(_sceneDataID);
 		if(string.IsNullOrEmpty(jsonString))
 		{ return; }
 
@@ -26,6 +34,6 @@ public class DataSaver : MonoBehaviour
 	private void SceneDataUpdated(SceneData sceneData)
 	{
 		string jsonString = JsonUtility.ToJson(sceneData);
-		KeyChain.StoreJSONData(jsonString);
+		KeyChain.SetString(_sceneDataID, jsonString);
 	}
 }
